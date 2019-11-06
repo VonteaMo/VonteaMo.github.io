@@ -323,10 +323,15 @@
       
         
           
-            <p>在输入框输入了” <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a> “、” loli.club “等之后，页面没有变化，url倒是可以看出是get传参<br>试了试”127.0.0.1”，发现是个ping回显<br><img src="/2019/11/04/Cat/127.png" alt=""><br>想到了命令执行，于是尝试了”| &amp;”之类的，返回的都是”Invalid URL”<br>尝试了许多种域名，发现返回值基本都是以上两种，想着能不能发现一些报错信息，开始使用编码提交，最终发现url编码下超过”%79”基本爆出报错信息了<br><img src="/2019/11/04/Cat/报错信息.png" alt=""><br>基本上可以看出来是个Python+Django的网站，看到了database信息<br><img src="/2019/11/04/Cat/database.png" alt=""><br>但是没办法读取。看到大佬们利用的手法” CURLOPT_SAFE_UPLOAD为TURE”时，可造成任意文件读取<br><img src="/2019/11/04/Cat/文件读取.png" alt=""><br>于是构建Payload：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://111.198.29.45:51642/index.php?url=@/opt/api/database.sqlite3</span><br></pre></td></tr></table></figure></p>
-<p>搜索WHCTF获得flag</p>
-
-          
+          在输入框输入了” www.baidu.com “、” loli.club “等之后，页面没有变化，url倒是可以看出是get传参试了试”127.0.0.1”，发现是个ping回显想到了命令执行，于是尝试了”| &amp;”之类的，返回的都是”Invalid URL”尝试了许多种域名，发现返回值基本都
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/11/04/Cat/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -444,10 +449,16 @@
       
         
           
-            <h2 id="level1"><a href="#level1" class="headerlink" title="level1"></a>level1</h2><p>url上的参数显示在页面中直接修改<br>Payload：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xss.tesla-space.com/level1.php?name=&lt;script&gt;alert(<span class="string">'xss'</span>);&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
-<h2 id="level2"><a href="#level2" class="headerlink" title="level2"></a>level2</h2><p>在”input”框里输入值，审查元素发现原先输入值在”value”值后，于是构造payload闭合标签并xss<br>Payload：<br>Payload：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xss.tesla-space.com/level2.php?keyword=<span class="string">"&gt;&lt;script&gt;alert('xss');&lt;/script&gt;</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="level3"><a href="#level3" class="headerlink" title="level3"></a>level3</h2>
-          
+          level1url上的参数显示在页面中直接修改Payload：1http://xss.tesla-space.com/level1.php?name=&lt;script&gt;alert('xss');&lt;/script&gt;
+level2在”input”框里输入值，审查元素发现原先输入值在
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/04/26/XSSChallenge/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -565,29 +576,15 @@
       
         
           
-            <h2 id="什么是CSRF"><a href="#什么是CSRF" class="headerlink" title="什么是CSRF"></a>什么是CSRF</h2><p>跨站请求伪造（Cross-site request forgery），也被称为 one-click attack 或者 session riding，通常缩写为 CSRF 或者 XSRF， 是一种挟制用户在当前已登录的Web应用程序上执行非本意的操作的攻击方法。跟跨网站脚本（XSS）相比，XSS 利用的是用户对指定网站的信任，CSRF 利用的是网站对用户网页浏览器的信任。<br>当用户已经登录A网站,并且还未退出A网站时。这时如果用户去访问B网站，且B网站为攻击者设计。那么攻击者通过在网页中写入的代码，使用户的浏览器去访问攻击者想要用户去访问的内容（如转账、以用户名义发送信息、盗取用户账号等），将对用户的个人隐私和财产安全造成破坏。</p>
-<h2 id="简单例子1"><a href="#简单例子1" class="headerlink" title="简单例子1"></a>简单例子1</h2><p>设黑客通过拦截对某银行的转账请求，从中得到：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.examplebank.com/Payfor.php?PayforId=1&amp;money=10000</span><br></pre></td></tr></table></figure>
-<p>通过访问这串url，黑客成功向某个账户转入了10000元。</p>
-<p>根据这点，如果某个用户A在打开某银行网站后，未关闭某银行网站或者与某银行网站的会话的cookie未过期。那么这时候。如果你访问了黑客静心布置的网站，例如：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(img src=<span class="string">"http://examplebank.com/Payfor.php?PayforId=1?money=10000"</span>)</span><br></pre></td></tr></table></figure>
-<p>若黑客将这段代码放在网页中，你访问时，就会发现自己账户成功的减少10000元！！！<br>这是因为当你访问这个网站时，img标签会自动引用资源，此刻即自动发出http请求，这时，你的浏览器就会将其上的cookie和请求一起发向某银行执行转账操作。</p>
-<p>当然，为了减少怀疑，通常将img里图像格式长长宽设置为“0”,这时，你将看不到图片爆错时出现的错误图像，在网页代码及其繁多复杂的时候，你可能根本不会注意到有这样一串代码。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(img src=<span class="string">"http://examplebank.com/Payfor.php?PayforId=1?money=10000"</span> style=<span class="string">"width: 0px;height: 0px;"</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="简单例子2"><a href="#简单例子2" class="headerlink" title="简单例子2"></a>简单例子2</h2><p>为了避免get请求方式带来的问题，一些银行想通过使用post请求方法来解决问题，那么，post方法就能解决掉CSRF了吗？</p>
-<p>答案肯定是不能。</p>
-<p>假设某银行网站中，通过from标签来提交转账对象和转账金额的大小。同时，后台通过对post数据的验证来完成操作。这时，如果黑客在网站中添加：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;title&gt;title&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">123</span><br><span class="line">&lt;iframe style=<span class="string">"display:none"</span> name=<span class="string">"Payfor"</span>&gt;&lt;/iframe&gt;</span><br><span class="line">&lt;form method=<span class="string">'POST'</span> action=<span class="string">'http://127.0.0.1/2.php'</span> target=<span class="string">"Payfor"</span> id=<span class="string">"BgPayfor"</span>&gt;</span><br><span class="line">  &lt;input <span class="built_in">type</span>=<span class="string">'hidden'</span> name=<span class="string">'Id'</span> value=<span class="string">'3'</span>&gt;</span><br><span class="line">  &lt;input <span class="built_in">type</span>=<span class="string">'hidden'</span> name=<span class="string">"money"</span> value=<span class="string">'10000'</span>&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;document.getElementById(<span class="string">"BgPayfor"</span>).submit()&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-<p>这时，用户浏览器会自动向某银行网站发送转账请求，再一次的损失了10000元！！！</p>
-<h2 id="简单例子3"><a href="#简单例子3" class="headerlink" title="简单例子3"></a>简单例子3</h2><p>有一点，如果某银行网站通过post请求方式发送请求，却在后台通过request来进行验证，那么，只要黑客网站中仍有着get方式的代码就行了，即：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(img src=<span class="string">"http://examplebank.com/Payfor.php?PayforId=1?money=10000"</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="CSRF达成的要求"><a href="#CSRF达成的要求" class="headerlink" title="CSRF达成的要求"></a>CSRF达成的要求</h2><p>登录了信任的网站，生成了Cookie，但是在会话未结束或者Cooike未过期时访问了危险网站，危险网站恰好向你信任的网站发送了某些请求，从而实现攻击者伪装成用户身份进行谋利、破坏。</p>
-<h2 id="CSRF的防御"><a href="#CSRF的防御" class="headerlink" title="CSRF的防御"></a>CSRF的防御</h2><p>既然知道了漏洞产生的原因，那么也就有着解决的办法。</p>
-<h5 id="用户退出"><a href="#用户退出" class="headerlink" title="用户退出"></a>用户退出</h5><p>最简单的防御方式莫过于当你登录某些重要网站处理事情时，当完成自己事情后，对用户进行退出、注销操作，当然，其操作有一定的麻烦性</p>
-<h5 id="验证码的使用"><a href="#验证码的使用" class="headerlink" title="验证码的使用"></a>验证码的使用</h5><p>例如现在网页上最常见的滑动型验证码，当进行用户提交操作时，需要鼠标滑动方块对图片进行补全后才能实现操作。</p>
-<h5 id="token"><a href="#token" class="headerlink" title="token"></a>token</h5><p>通过在http请求中以参数的形式加入一个随机产生的token，”一定要是随机的”！！！，token放在服务器的Session中并在服务器端建立一个拦截器来验证这个token，若是请求中没有token或者token错误则拒绝此请求<br>同时，对token设置有效期，且在一些敏感操作中应该使用post方式，而不是get方式和form表单，后面这两种会将token值给泄露。</p>
-
-          
+          什么是CSRF跨站请求伪造（Cross-site request forgery），也被称为 one-click attack 或者 session riding，通常缩写为 CSRF 或者 XSRF， 是一种挟制用户在当前已登录的Web应用程序上执行非本意的操作的攻击方法。跟跨网站脚本（XSS）相
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/29/浅谈CSRF/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -705,17 +702,15 @@
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
+          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in 
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/07/26/hello-world/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
